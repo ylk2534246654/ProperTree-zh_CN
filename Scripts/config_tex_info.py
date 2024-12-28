@@ -11,7 +11,7 @@ else:
     import tkMessageBox as mb #pylint: disable=E0401
 
 class ConfigurationLoadError(Exception):
-    """Raised when the Configuration.tex could not be found or opened."""
+    """当Configuration.tex文件无法找到或无法打开时引发（错误/异常）"""
     pass
 
 
@@ -73,9 +73,9 @@ def display_info_window(config_tex, search_list, width, valid_only, show_urls, c
             config_tex, search_list, width, valid_only, show_urls)
     except ConfigurationLoadError:
         mb.showerror(
-            "Configuration.tex Error",
-            "Could not find/open Configuration.tex at: {}".format(
-                config_tex or "No Path Specified"
+            "Configuration.tex 错误",
+            "无法在以下位置找到/打开 Configuration.tex: {}".format(
+                config_tex or "未指定路径"
             ))
         return
 
@@ -211,8 +211,8 @@ def display_info_window(config_tex, search_list, width, valid_only, show_urls, c
         # that nothing was found
         info_window.destroy()
         mb.showerror(
-            "Info Not Found",
-            "No info found for: \"{}\"".format(title))
+            "找不到信息",
+            "未找到关于以下内容的信息： \"{}\"".format(title))
         return
 
     # Fit the line width to our max line length topping out at our width value

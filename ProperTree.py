@@ -30,8 +30,8 @@ def _check_for_update(queue, version_url = None, user_initiated = False):
         args.append(file_path)
     else:
         return queue.put({
-            "exception":"Could not locate update_check.py.",
-            "error":"Missing Required Files",
+            "exception":"无法找到 update_check.py 文件。",
+            "error":"缺少必需文件",
             "user_initiated":user_initiated
         })
     if version_url: args.extend(["-u",version_url])
@@ -44,8 +44,8 @@ def _check_for_update(queue, version_url = None, user_initiated = False):
         json_data["user_initiated"] = user_initiated
     except:
         return queue.put({
-            "exception":"Could not serialize returned JSON data.",
-            "error":"An Error Occurred Checking For Updates",
+            "exception":"无法序列化返回的JSON数据。",
+            "error":"检查更新时发生错误",
             "user_initiated":user_initiated
         })
     queue.put(json_data)
@@ -57,8 +57,8 @@ def _update_tex(queue, tex_url = None, tex_path = None):
         args.extend([file_path,"-m","tex","-t",tex_path])
     else:
         return queue.put({
-            "exception":"Could not locate update_check.py.",
-            "error":"Missing Required Files"
+            "exception":"无法找到 update_check.py 文件。",
+            "error":"缺少必需文件"
         })
     if tex_url: args.extend(["-u",tex_url])
     proc = subprocess.Popen(args,stdout=subprocess.PIPE)
@@ -68,8 +68,8 @@ def _update_tex(queue, tex_url = None, tex_path = None):
         json_data = json.loads(o)
     except:
         return queue.put({
-            "exception":"Could not serialize returned JSON data.",
-            "error":"An Error Occurred Downloading Configuration.tex"
+            "exception":"无法序列化返回的JSON数据。",
+            "error":"下载 Configuration.tex 配置文件时出错。"
         })
     queue.put(json_data)
 
@@ -82,21 +82,21 @@ class ProperTree:
         # Create the new tk object
         self.tk = tk.Tk()
         self.tk.withdraw() # Try to remove before it's drawn
-        self.tk.title("Convert Values")
+        self.tk.title("转换值")
         self.tk.minsize(width=640,height=130)
         self.tk.resizable(True, False)
         self.tk.columnconfigure(2,weight=1)
         self.tk.columnconfigure(3,weight=1)
         # Build the Hex <--> Base64 converter
-        f_label = tk.Label(self.tk, text="From:")
+        f_label = tk.Label(self.tk, text="从:")
         f_label.grid(row=0,column=0,sticky="e",padx=10,pady=10)
-        t_label = tk.Label(self.tk, text="To:")
+        t_label = tk.Label(self.tk, text="到:")
         t_label.grid(row=1,column=0,sticky="e",padx=10,pady=10)
 
         # Create the settings window
         self.settings_window = tk.Toplevel(self.tk)
         self.settings_window.withdraw() # Try to remove before it's drawn
-        self.settings_window.title("ProperTree Settings")
+        self.settings_window.title("设置")
         self.settings_window.resizable(False, False)
         self.settings_window.columnconfigure(0,weight=1)
         self.settings_window.columnconfigure(2,weight=1)
@@ -125,7 +125,7 @@ class ProperTree:
         # Let's add some checkboxes and stuffs
         sep_func = ttk.Separator(self.settings_window,orient="horizontal")
         sep_func.grid(row=0,column=1,columnspan=2,sticky="we",padx=10,pady=10)
-        func_label = tk.Label(self.settings_window,text="Functionality Options:")
+        func_label = tk.Label(self.settings_window,text="功能选项:")
         func_label.grid(row=0,column=0,sticky="w",padx=10,pady=10)
 
         self.expand_on_open = tk.IntVar()
@@ -134,57 +134,57 @@ class ProperTree:
         self.comment_ignore_case = tk.IntVar()
         self.comment_check_string = tk.IntVar()
         self.force_schema = tk.IntVar()
-        self.expand_check = tk_or_ttk.Checkbutton(self.settings_window,text="Expand Children When Opening Plist",variable=self.expand_on_open,command=self.expand_command)
-        self.xcode_check = tk_or_ttk.Checkbutton(self.settings_window,text="Use Xcode-Style <data> Tags (Inline) in XML Plists",variable=self.use_xcode_data,command=self.xcode_command)
-        self.sort_check = tk_or_ttk.Checkbutton(self.settings_window,text="Ignore Dictionary Key Order",variable=self.sort_dict_keys,command=self.sort_command)
-        self.ignore_case_check = tk_or_ttk.Checkbutton(self.settings_window,text="Ignore Case When Stripping Comments",variable=self.comment_ignore_case,command=self.ignore_case_command)
-        self.check_string_check = tk_or_ttk.Checkbutton(self.settings_window,text="Check String Values When Stripping Comments",variable=self.comment_check_string,command=self.check_string_command)
+        self.expand_check = tk_or_ttk.Checkbutton(self.settings_window,text="打开 Plist 时展开子项",variable=self.expand_on_open,command=self.expand_command)
+        self.xcode_check = tk_or_ttk.Checkbutton(self.settings_window,text="在XML Plist中使用Xcode风格的<data>标签（内联）",variable=self.use_xcode_data,command=self.xcode_command)
+        self.sort_check = tk_or_ttk.Checkbutton(self.settings_window,text="忽略字典键顺序",variable=self.sort_dict_keys,command=self.sort_command)
+        self.ignore_case_check = tk_or_ttk.Checkbutton(self.settings_window,text="删除注释时忽略大小写",variable=self.comment_ignore_case,command=self.ignore_case_command)
+        self.check_string_check = tk_or_ttk.Checkbutton(self.settings_window,text="删除注释时检查字符串值",variable=self.comment_check_string,command=self.check_string_command)
         self.expand_check.grid(row=1,column=0,columnspan=3,sticky="w",padx=10)
         self.xcode_check.grid(row=2,column=0,columnspan=3,sticky="w",padx=10)
         self.sort_check.grid(row=3,column=0,columnspan=3,sticky="w",padx=10)
         self.ignore_case_check.grid(row=4,column=0,columnspan=3,sticky="w",padx=10)
         self.check_string_check.grid(row=5,column=0,columnspan=3,sticky="w",padx=10)
-        comment_prefix_label = tk.Label(self.settings_window,text="Comment Prefix (default is #):")
+        comment_prefix_label = tk.Label(self.settings_window,text="注释前缀(默认为＃):")
         comment_prefix_label.grid(row=6,column=0,sticky="w",padx=10)
         self.comment_prefix_text = plistwindow.EntryPlus(self.settings_window,self.tk,self)
         self.comment_prefix_text.grid(row=6,column=1,columnspan=2,sticky="we",padx=10)
         self.plist_type_string = tk.StringVar(self.settings_window)
         self.plist_type_menu = tk_or_ttk.OptionMenu(self.settings_window, self.plist_type_string, *self.get_option_menu_list(self.allowed_types), command=self.change_plist_type)
-        plist_label = tk.Label(self.settings_window,text="Default New Plist Type:")
+        plist_label = tk.Label(self.settings_window,text="默认新建Plist类型:")
         plist_label.grid(row=7,column=0,sticky="w",padx=10)
         self.plist_type_menu.grid(row=7,column=1,columnspan=2,sticky="we",padx=10)
         self.data_type_string = tk.StringVar(self.settings_window)
         self.data_type_menu = tk_or_ttk.OptionMenu(self.settings_window, self.data_type_string, *self.get_option_menu_list(self.allowed_data), command=self.change_data_type)
-        data_label = tk.Label(self.settings_window,text="Data Display Default:")
+        data_label = tk.Label(self.settings_window,text="Data 默认显示为:")
         data_label.grid(row=8,column=0,sticky="w",padx=10)
         self.data_type_menu.grid(row=8,column=1,columnspan=2,sticky="we",padx=10)
         self.int_type_string = tk.StringVar(self.settings_window)
         self.int_type_menu = tk_or_ttk.OptionMenu(self.settings_window, self.int_type_string, *self.get_option_menu_list(self.allowed_int), command=self.change_int_type)
-        int_label = tk.Label(self.settings_window,text="Integer Display Default:")
+        int_label = tk.Label(self.settings_window,text="Integer 默认显示为:")
         int_label.grid(row=9,column=0,sticky="w",padx=10)
         self.int_type_menu.grid(row=9,column=1,columnspan=2,sticky="we",padx=10)
         self.bool_type_string = tk.StringVar(self.settings_window)
         self.bool_type_menu = tk_or_ttk.OptionMenu(self.settings_window, self.bool_type_string, *self.get_option_menu_list(self.allowed_bool), command=self.change_bool_type)
-        bool_label = tk.Label(self.settings_window,text="Boolean Display Default:")
+        bool_label = tk.Label(self.settings_window,text="Boolean 默认显示为:")
         bool_label.grid(row=10,column=0,sticky="w",padx=10)
         self.bool_type_menu.grid(row=10,column=1,columnspan=2,sticky="we",padx=10)
         self.snapshot_string = tk.StringVar(self.settings_window)
         self.snapshot_menu = tk_or_ttk.OptionMenu(self.settings_window, self.snapshot_string, "Auto-detect", command=self.change_snapshot_version)
-        snapshot_label = tk.Label(self.settings_window,text="OC Snapshot Target Version:")
+        snapshot_label = tk.Label(self.settings_window,text="快照OC版本:")
         snapshot_label.grid(row=11,column=0,sticky="w",padx=10)
         self.snapshot_menu.grid(row=11,column=1,columnspan=2,sticky="we",padx=10)
-        self.schema_check = tk_or_ttk.Checkbutton(self.settings_window,text="Force Update Snapshot Schema",variable=self.force_schema,command=self.schema_command)
+        self.schema_check = tk_or_ttk.Checkbutton(self.settings_window,text="强制更新快照架构",variable=self.force_schema,command=self.schema_command)
         self.schema_check.grid(row=12,column=0,columnspan=3,sticky="w",padx=10)
         self.mod_check = tk.IntVar()
-        self.enable_mod_check = tk_or_ttk.Checkbutton(self.settings_window,text="Warn If Files Are Externally Modified",variable=self.mod_check,command=self.mod_check_command)
+        self.enable_mod_check = tk_or_ttk.Checkbutton(self.settings_window,text="如果文件被外部修改，则发出警告",variable=self.mod_check,command=self.mod_check_command)
         self.enable_mod_check.grid(row=13,column=0,columnspan=3,stick="w",padx=10)
         self.first_check = tk.IntVar()
-        self.enable_first_check = tk_or_ttk.Checkbutton(self.settings_window,text="Enter Edits Values Before Keys Where Possible",variable=self.first_check,command=self.first_check_command)
+        self.enable_first_check = tk_or_ttk.Checkbutton(self.settings_window,text="尽可能在关键帧之前输入编辑值",variable=self.first_check,command=self.first_check_command)
         self.enable_first_check.grid(row=14,column=0,columnspan=3,stick="w",padx=10)
         self.enable_drag_and_drop = tk.BooleanVar()
-        self.toggle_drag_drop = tk_or_ttk.Checkbutton(self.settings_window,text="Enable Row Drag & Drop", variable=self.enable_drag_and_drop,command=self.drag_drop_command)
+        self.toggle_drag_drop = tk_or_ttk.Checkbutton(self.settings_window,text="启用行拖放", variable=self.enable_drag_and_drop,command=self.drag_drop_command)
         self.toggle_drag_drop.grid(row=15,column=0,columnspan=3,sticky="w",padx=10)
-        self.drag_label = tk.Label(self.settings_window,text="Drag Dead Zone (1-100 pixels):")
+        self.drag_label = tk.Label(self.settings_window,text="拖动范围 (1-100 像素):")
         self.drag_label.grid(row=16,column=0,sticky="w",padx=10)
         self.drag_pixels = tk.Label(self.settings_window,text="20")
         self.drag_pixels.grid(row=16,column=1,sticky="w",padx=(10,0))
@@ -193,10 +193,10 @@ class ProperTree:
         try: self.drag_scale.configure(showvalue=False)
         except tk.TclError: pass
         self.drag_scale.grid(row=16,column=2,sticky="we",padx=(0,10))
-        self.drag_disabled = tk.Label(self.settings_window,text="[ Drag & Drop Disabled ]")
+        self.drag_disabled = tk.Label(self.settings_window,text="[已禁用拖放]")
         self.drag_disabled.configure(state="disabled")
         self.drag_disabled.grid(row=16,column=1,columnspan=2,sticky="we",padx=10)
-        undo_max_label = tk.Label(self.settings_window,text="Max Undo (0=unlim, {}=default):".format(self.max_undo))
+        undo_max_label = tk.Label(self.settings_window,text="最大撤销次数 (0=无限制, {}=默认):".format(self.max_undo))
         undo_max_label.grid(row=17,column=0,sticky="w",padx=10)
         self.undo_max_text = plistwindow.EntryPlus(self.settings_window,self.tk,self)
         self.undo_max_text.grid(row=17,column=1,columnspan=2,sticky="we",padx=10)
@@ -211,7 +211,7 @@ class ProperTree:
         tfunc_label = tk.Label(self.settings_window,text="Appearance Options:")
         tfunc_label.grid(row=0,column=4,sticky="w",padx=10,pady=10)
 
-        self.op_label = tk.Label(self.settings_window,text="Window Opacity (25-100%):")
+        self.op_label = tk.Label(self.settings_window,text="窗口不透明度 (25-100%):")
         self.op_label.grid(row=1,column=4,sticky="w",padx=10)
         self.op_perc = tk.Label(self.settings_window,text="100")
         self.op_perc.grid(row=1,column=5,sticky="w",padx=(10,0))
@@ -220,41 +220,41 @@ class ProperTree:
         try: self.op_scale.configure(showvalue=False)
         except tk.TclError: pass
         self.op_scale.grid(row=1,column=6,sticky="we",padx=10)
-        r4_label = tk.Label(self.settings_window,text="Highlight Color:")
+        r4_label = tk.Label(self.settings_window,text="突出显示颜色：")
         r4_label.grid(row=2,column=4,sticky="w",padx=10)
         self.hl_canvas = tk.Canvas(self.settings_window, height=20, width=30, background="black", relief="groove", bd=2)
         self.hl_canvas.grid(row=2,column=5,columnspan=2,sticky="we",padx=10)
-        r1_label = tk.Label(self.settings_window,text="Alternating Row Color #1:")
+        r1_label = tk.Label(self.settings_window,text="交替行颜色#1：")
         r1_label.grid(row=3,column=4,sticky="w",padx=10)
         self.r1_canvas = tk.Canvas(self.settings_window, height=20, width=30, background="black", relief="groove", bd=2)
         self.r1_canvas.grid(row=3,column=5,columnspan=2,sticky="we",padx=10)
-        r2_label = tk.Label(self.settings_window,text="Alternating Row Color #2:")
+        r2_label = tk.Label(self.settings_window,text="交替行颜色#2：")
         r2_label.grid(row=4,column=4,sticky="w",padx=10)
         self.r2_canvas = tk.Canvas(self.settings_window, height=20, width=30, background="black", relief="groove", bd=2)
         self.r2_canvas.grid(row=4,column=5,columnspan=2,sticky="we",padx=10)
-        r3_label = tk.Label(self.settings_window,text="Column Header/BG Color:")
+        r3_label = tk.Label(self.settings_window,text="列标题/背景 颜色:")
         r3_label.grid(row=5,column=4,sticky="w",padx=10)
         self.bg_canvas = tk.Canvas(self.settings_window, height=20, width=30, background="black", relief="groove", bd=2)
         self.bg_canvas.grid(row=5,column=5,columnspan=2,sticky="we",padx=10)
         self.ig_bg_check = tk.IntVar()
-        self.ig_bg = tk_or_ttk.Checkbutton(self.settings_window,text="Header Text Ignores BG Color",variable=self.ig_bg_check,command=self.check_ig_bg_command)
+        self.ig_bg = tk_or_ttk.Checkbutton(self.settings_window,text="标题文本忽略背景颜色",variable=self.ig_bg_check,command=self.check_ig_bg_command)
         self.ig_bg.grid(row=6,column=4,sticky="w",padx=10)
         self.bg_inv_check = tk.IntVar()
-        self.bg_inv = tk_or_ttk.Checkbutton(self.settings_window,text="Invert Header Text Color",variable=self.bg_inv_check,command=self.check_bg_invert_command)
+        self.bg_inv = tk_or_ttk.Checkbutton(self.settings_window,text="反转标题文本颜色",variable=self.bg_inv_check,command=self.check_bg_invert_command)
         self.bg_inv.grid(row=6,column=5,columnspan=2,sticky="w",padx=10)
         self.r1_inv_check = tk.IntVar()
-        self.r1_inv = tk_or_ttk.Checkbutton(self.settings_window,text="Invert Row #1 Text Color",variable=self.r1_inv_check,command=self.check_r1_invert_command)
+        self.r1_inv = tk_or_ttk.Checkbutton(self.settings_window,text="反转第1行文本颜色",variable=self.r1_inv_check,command=self.check_r1_invert_command)
         self.r1_inv.grid(row=7,column=5,columnspan=2,sticky="w",padx=10)
         self.r2_inv_check = tk.IntVar()
-        self.r2_inv = tk_or_ttk.Checkbutton(self.settings_window,text="Invert Row #2 Text Color",variable=self.r2_inv_check,command=self.check_r2_invert_command)
+        self.r2_inv = tk_or_ttk.Checkbutton(self.settings_window,text="反转第2行文本颜色",variable=self.r2_inv_check,command=self.check_r2_invert_command)
         self.r2_inv.grid(row=8,column=5,columnspan=2,sticky="w",padx=10)
         self.hl_inv_check = tk.IntVar()
-        self.hl_inv = tk_or_ttk.Checkbutton(self.settings_window,text="Invert Highlight Text Color",variable=self.hl_inv_check,command=self.check_hl_invert_command)
+        self.hl_inv = tk_or_ttk.Checkbutton(self.settings_window,text="反转突出显示文本颜色",variable=self.hl_inv_check,command=self.check_hl_invert_command)
         self.hl_inv.grid(row=9,column=5,columnspan=2,sticky="w",padx=10)
 
         self.default_font = Font(font='TkTextFont')
         self.custom_font = tk.IntVar()
-        self.font_check = tk_or_ttk.Checkbutton(self.settings_window,text="Use Custom Font Size",variable=self.custom_font,command=self.font_command)
+        self.font_check = tk_or_ttk.Checkbutton(self.settings_window,text="使用自定义字体大小",variable=self.custom_font,command=self.font_command)
         self.font_string = tk.StringVar()
         self.font_spinbox = tk.Spinbox(self.settings_window,from_=1,to=128,textvariable=self.font_string)
         try:
@@ -267,7 +267,7 @@ class ProperTree:
         # Custom font picker - wacky implementation.
         self.font_var = tk.IntVar()
         self.font_family  = tk.StringVar()
-        self.font_custom_check = tk_or_ttk.Checkbutton(self.settings_window,text="Use Custom Font",variable=self.font_var,command=self.font_select)
+        self.font_custom_check = tk_or_ttk.Checkbutton(self.settings_window,text="使用自定义字体",variable=self.font_var,command=self.font_select)
         self.font_custom = ttk.Combobox(self.settings_window,state="readonly",textvariable=self.font_family,values=sorted(families()))
         self.font_custom.bind('<<ComboboxSelected>>',self.font_pick)
         try:
@@ -277,18 +277,18 @@ class ProperTree:
         self.font_custom_check.grid(row=11,column=4,stick="w",padx=10)
         self.font_custom.grid(row=11,column=5,columnspan=2,sticky="we",padx=10)
 
-        r5_label = tk.Label(self.settings_window,text="Restore Appearance Defaults:")
+        r5_label = tk.Label(self.settings_window,text="恢复外观默认值:")
         r5_label.grid(row=12,column=4,sticky="w",padx=10)
         dt_func = ttk.Separator(self.settings_window,orient="horizontal")
         dt_func.grid(row=12,column=5,columnspan=2,sticky="we",padx=10)
 
-        default_font = tk_or_ttk.Button(self.settings_window,text="Font Defaults",command=self.font_defaults)
+        default_font = tk_or_ttk.Button(self.settings_window,text="字体默认值",command=self.font_defaults)
         default_font.grid(row=13,column=4,sticky="we",padx=10)
-        default_high = tk_or_ttk.Button(self.settings_window,text="Highlight Color",command=lambda:self.swap_colors("highlight"))
+        default_high = tk_or_ttk.Button(self.settings_window,text="突出显示颜色",command=lambda:self.swap_colors("highlight"))
         default_high.grid(row=14,column=4,sticky="we",padx=10)
-        default_light = tk_or_ttk.Button(self.settings_window,text="Light Mode Colors",command=lambda:self.swap_colors("light"))
+        default_light = tk_or_ttk.Button(self.settings_window,text="设置为白天模式",command=lambda:self.swap_colors("light"))
         default_light.grid(row=13,column=5,columnspan=2,sticky="we",padx=10)
-        default_dark = tk_or_ttk.Button(self.settings_window,text="Dark Mode Colors",command=lambda:self.swap_colors("dark"))
+        default_dark = tk_or_ttk.Button(self.settings_window,text="设置为夜间模式",command=lambda:self.swap_colors("dark"))
         default_dark.grid(row=14,column=5,columnspan=2,sticky="we",padx=10)
 
         sep_theme = ttk.Separator(self.settings_window,orient="horizontal")
@@ -296,16 +296,16 @@ class ProperTree:
 
         # Add the check for updates checkbox and button
         self.update_int = tk.IntVar()
-        self.update_check = tk_or_ttk.Checkbutton(self.settings_window,text="Check For Updates At Start",variable=self.update_int,command=self.update_command)
+        self.update_check = tk_or_ttk.Checkbutton(self.settings_window,text="开始时检查更新",variable=self.update_int,command=self.update_command)
         self.update_check.grid(row=19,column=0,sticky="w",padx=10,pady=(5,0))
         self.notify_once_int = tk.IntVar()
-        self.notify_once_check = tk_or_ttk.Checkbutton(self.settings_window,text="Only Notify Once Per Version",variable=self.notify_once_int,command=self.notify_once)
+        self.notify_once_check = tk_or_ttk.Checkbutton(self.settings_window,text="开始时检查更新",variable=self.notify_once_int,command=self.notify_once)
         self.notify_once_check.grid(row=20,column=0,sticky="w",padx=10,pady=(0,10))
         self.update_button = tk_or_ttk.Button(self.settings_window,text="Check Now",command=lambda:self.check_for_updates(user_initiated=True))
         self.update_button.grid(row=20,column=1,columnspan=2,sticky="w",padx=10,pady=(0,10))
-        self.tex_button = tk_or_ttk.Button(self.settings_window,text="Get Configuration.tex",command=self.get_latest_tex)
+        self.tex_button = tk_or_ttk.Button(self.settings_window,text="获取 Configuration.tex",command=self.get_latest_tex)
         self.tex_button.grid(row=20,column=4,sticky="we",padx=10,pady=(0,10))
-        reset_settings = tk_or_ttk.Button(self.settings_window,text="Restore All Defaults",command=self.reset_settings)
+        reset_settings = tk_or_ttk.Button(self.settings_window,text="恢复所有默认值",command=self.reset_settings)
         reset_settings.grid(row=20,column=5,columnspan=2,sticky="we",padx=10,pady=(0,10))
 
         # Setup the color picker click methods
@@ -361,9 +361,9 @@ class ProperTree:
         self.t_text.configure(state='readonly')
         self.t_text.grid(row=1,column=2,columnspan=3,sticky="we",padx=10,pady=10)
 
-        self.c_button = tk_or_ttk.Button(self.tk, text="Convert", command=self.convert_values)
+        self.c_button = tk_or_ttk.Button(self.tk, text="转换", command=self.convert_values)
         self.c_button.grid(row=2,column=4,sticky="e",padx=10,pady=10)
-        self.s_button = tk_or_ttk.Button(self.tk, text="To <--> From", command=self.swap_convert)
+        self.s_button = tk_or_ttk.Button(self.tk, text="到 <--> 从", command=self.swap_convert)
         self.s_button.grid(row=2,column=0,columnspan=2,sticky="w",padx=10,pady=10)
 
         self.f_text.bind("<Return>", self.convert_values)
@@ -411,28 +411,28 @@ class ProperTree:
             file_menu = tk.Menu(self.tk)
             main_menu = tk.Menu(self.tk)
             self.recent_menu = tk.Menu(self.tk)
-            main_menu.add_cascade(label="File", menu=file_menu)
-            file_menu.add_command(label="New (Cmd+N)", command=self.new_plist)
-            file_menu.add_command(label="Open (Cmd+O)", command=self.open_plist)
-            file_menu.add_cascade(label="Open Recent", menu=self.recent_menu, command=self.open_recent)
-            file_menu.add_command(label="Save (Cmd+S)", command=self.save_plist)
-            file_menu.add_command(label="Save As... (Cmd+Shift+S)", command=self.save_plist_as)
-            file_menu.add_command(label="Duplicate (Cmd+D)", command=self.duplicate_plist)
-            file_menu.add_command(label="Reload From Disk (Cmd+L)", command=self.reload_from_disk)
+            main_menu.add_cascade(label="文件", menu=file_menu)
+            file_menu.add_command(label="新建 (Cmd+N)", command=self.new_plist)
+            file_menu.add_command(label="打开 (Cmd+O)", command=self.open_plist)
+            file_menu.add_cascade(label="最近打开", menu=self.recent_menu, command=self.open_recent)
+            file_menu.add_command(label="保存 (Cmd+S)", command=self.save_plist)
+            file_menu.add_command(label="另存为... (Cmd+Shift+S)", command=self.save_plist_as)
+            file_menu.add_command(label="复制 (Cmd+D)", command=self.duplicate_plist)
+            file_menu.add_command(label="从磁盘重新加载 (Cmd+L)", command=self.reload_from_disk)
             file_menu.add_separator()
-            file_menu.add_command(label="OC Snapshot (Cmd+R)", command=self.oc_snapshot)
-            file_menu.add_command(label="OC Clean Snapshot (Cmd+Shift+R)", command=self.oc_clean_snapshot)
+            file_menu.add_command(label="OC 快照 (Cmd+R)", command=self.oc_snapshot)
+            file_menu.add_command(label="OC 清理快照 (Cmd+Shift+R)", command=self.oc_clean_snapshot)
             file_menu.add_separator()
-            file_menu.add_command(label="Convert Window (Cmd+T)", command=lambda:self.show_window(self.tk))
-            file_menu.add_command(label="Strip Comments (Cmd+M)", command=self.strip_comments)
-            file_menu.add_command(label="Strip Disabled Entries (Cmd+E)", command=self.strip_disabled)
+            file_menu.add_command(label="转换窗口 (Cmd+T)", command=lambda:self.show_window(self.tk))
+            file_menu.add_command(label="移除注释 (Cmd+M)", command=self.strip_comments)
+            file_menu.add_command(label="移除禁用条目 (Cmd+E)", command=self.strip_disabled)
             file_menu.add_separator()
-            file_menu.add_command(label="Settings (Cmd+,)",command=lambda:self.show_window(self.settings_window))
+            file_menu.add_command(label="设置 (Cmd+,)",command=lambda:self.show_window(self.settings_window))
             file_menu.add_separator()
-            file_menu.add_command(label="Toggle Find/Replace Pane (Cmd+F)",command=self.hide_show_find)
-            file_menu.add_command(label="Toggle Plist/Data/Int Type Pane (Cmd+P)",command=self.hide_show_type)
+            file_menu.add_command(label="切换查找/替换面板 (Cmd+F)",command=self.hide_show_find)
+            file_menu.add_command(label="切换 Plist/Data/Int 类型面板 (Cmd+P)",command=self.hide_show_type)
             file_menu.add_separator()
-            file_menu.add_command(label="Quit (Cmd+Q)", command=self.quit)
+            file_menu.add_command(label="退出 (Cmd+Q)", command=self.quit)
             self.tk.config(menu=main_menu)
 
         # Set bindings
@@ -811,13 +811,13 @@ class ProperTree:
             if user_initiated:
                 # We pressed the button - but another check is in progress
                 self.tk.bell()
-                mb.showerror("Already Checking For Updates","An update check is already in progress.  If you consistently get this error when manually checking for updates - it may indicate a netowrk issue.")
+                mb.showerror("正在检查更新","更新检查已经在进行中。如果您在手动检查更新时始终遇到此错误，那么这可能表明存在网络问题。")
                 self.lift_window()
             return
         self.is_checking_for_updates = True # Lock out other update checks
         self.update_button.configure(
             state="disabled",
-            text="Checking... ({})".format(self.version.get("version","?.?.?"))
+            text="检查... ({})".format(self.version.get("version","?.?.?"))
         )
         # We'll leverage multiprocessing to avoid UI locks if the update checks take too long
         p = multiprocessing.Process(target=_check_for_update,args=(self.queue,self.version_url,user_initiated))
@@ -828,7 +828,7 @@ class ProperTree:
     def reset_update_button(self):
         self.update_button.configure(
             state="normal",
-            text="Check Now ({})".format(self.version.get("version","?.?.?"))
+            text="现在检查 ({})".format(self.version.get("version","?.?.?"))
         )
 
     def check_update_process(self, p):
@@ -848,8 +848,8 @@ class ProperTree:
         user_initiated = output_dict.get("user_initiated",False)
         # Check if we got an error or exception
         if "exception" in output_dict or "error" in output_dict:
-            error = output_dict.get("error","An Error Occurred Checking For Updates")
-            excep = output_dict.get("exception","Something went wrong when checking for updates.")
+            error = output_dict.get("error","检查更新时发生错误")
+            excep = output_dict.get("exception","检查更新时出现了问题。")
             if user_initiated:
                 self.tk.bell()
                 mb.showerror(error,excep)
@@ -860,7 +860,7 @@ class ProperTree:
         if not version_dict.get("version"):
             if user_initiated:
                 self.tk.bell()
-                mb.showerror("An Error Occurred Checking For Updates","Data returned was malformed or nonexistent.")
+                mb.showerror("检查更新时发生错误","返回的数据格式错误或不存在")
                 self.lift_window()
             return self.reset_update_button()
         # At this point - we should have json data containing the version key/value
@@ -877,12 +877,12 @@ class ProperTree:
             # We got an update we're not ignoring - let's prompt
             self.tk.bell()
             result = mb.askyesno(
-                title="New ProperTree Version Available",
-                message="Version {} is available (currently on {}).\n\nWhat's new in {}:\n{}\n\nVisit ProperTree's github repo now?".format(
+                title="有新版本的 ProperTree 可用",
+                message="{} 版本已发布(当前版本为 {})。\n\n{} 版本的新增功能：\n{}\n\n现在要访问 ProperTree 的 github 仓库吗?".format(
                     check_version,
                     our_version,
                     check_version,
-                    version_dict.get("changes","No changes listed.")
+                    version_dict.get("changes","未列出任何更改。")
                 )
             )
             if result: # Open the url in the default browser
@@ -891,8 +891,8 @@ class ProperTree:
         elif user_initiated:
             # No new updates - but we need to tell the user
             mb.showinfo(
-                title="No Updates Available",
-                message="You are currently running the latest version of ProperTree ({}).".format(our_version)
+                title="没有可用的更新",
+                message="您当前正在运行最新版本的 ProperTree ({}).".format(our_version)
             )
         
         else:
@@ -942,7 +942,7 @@ class ProperTree:
         tex_version = version or self.get_tex_version()
         self.tex_button.configure(
             state="normal",
-            text="Get Configuration.tex{}".format(
+            text="获取 Configuration.tex{}".format(
                 " ({})".format(tex_version) if tex_version else ""
             )
         )
@@ -951,7 +951,7 @@ class ProperTree:
         tex_version = self.get_tex_version()
         self.tex_button.configure(
             state="disabled",
-            text="Downloading...{}".format(
+            text="下载...{}".format(
                 " ({})".format(tex_version) if tex_version else ""
             )
         )
@@ -974,8 +974,8 @@ class ProperTree:
         output_dict = self.tex_queue.get()
         # Check if we got an error or exception
         if "exception" in output_dict or "error" in output_dict:
-            error = output_dict.get("error","An Error Occurred Downloading Configuration.tex")
-            excep = output_dict.get("exception","Something went wrong when getting the latest Configuration.tex.")
+            error = output_dict.get("error","下载 Configuration.tex 配置文件时出错。")
+            excep = output_dict.get("exception","在获取最新的 Configuration.tex 文件时出现了问题。")
             self.tk.bell()
             mb.showerror(error,excep)
         else:
@@ -985,13 +985,13 @@ class ProperTree:
                 if not version:
                     self.tk.bell()
                     mb.showerror(
-                        title="An Error Occurred Downloading Configuration.tex",
-                        message="Something went wrong when getting the latest Configuration.tex."
+                        title="下载 Configuration.tex 配置文件时出错。",
+                        message="在获取最新的 Configuration.tex 文件时出现了问题。"
                     )
                 else:
                     mb.showinfo(
-                        title="Updated Configuration.tex",
-                        message="Configuration.tex ({}) saved to:\n\n{}".format(version,tex_path)
+                        title="更新 Configuration.tex",
+                        message="Configuration.tex ({}) 已保存到：\n\n{}".format(version,tex_path)
                     )
         self.reset_tex_button()
         # If we got here - we displayed some message, let's lift our window to the top
@@ -1350,7 +1350,7 @@ class ProperTree:
                     # It's been drawn, calculate the new way - width of the widget/2 gives us the halfway point
                     cw = c.winfo_width()
                     rw = int(cw/2)
-                self.canvas_connect[c]["text_id"] = c.create_text(rw,int(h/2),text="Sample Text")
+                self.canvas_connect[c]["text_id"] = c.create_text(rw,int(h/2),text="示例文本")
             # Set the color
             c.itemconfig(self.canvas_connect[c]["text_id"], fill=color)
 
@@ -1412,13 +1412,13 @@ class ProperTree:
         recents = self.settings.get("open_recent",[])
         target.recent_menu.delete(0,tk.END)
         if not len(recents):
-            target.recent_menu.add_command(label="No Recently Opened Files", state=tk.DISABLED)
+            target.recent_menu.add_command(label="没有最近打开的文件", state=tk.DISABLED)
         else:
             for recent in recents:
                 target.recent_menu.add_command(label=recent, command=lambda x=recent:self.open_recent(x))
         # Add the separator and clear option
         target.recent_menu.add_separator()
-        target.recent_menu.add_command(label="Clear Recently Opened", command=self.clear_recents)
+        target.recent_menu.add_command(label="清除最近打开的历史", command=self.clear_recents)
 
     def add_recent(self,recent):
         # Add a new item to our Open Recent list, and make sure our list
@@ -1453,7 +1453,7 @@ class ProperTree:
         path = os.path.normpath(path)
         if not (os.path.exists(path) and os.path.isfile(path)):
             self.tk.bell()
-            mb.showerror("An Error Occurred While Opening {}".format(os.path.basename(path)), "The path '{}' does not exist.".format(path))
+            mb.showerror("在打开 {} 时发生错误".format(os.path.basename(path)), "路径 '{}' 不存在。".format(path))
             self.lift_window()
             return
         return self.pre_open_with_path(path)
@@ -1483,7 +1483,7 @@ class ProperTree:
                 self.start_window = self.new_plist()
         except Exception as e:
             self.tk.bell()
-            mb.showerror("Error in check_open() function",repr(e))
+            mb.showerror("check_open() 函数中出错",repr(e))
             self.lift_window()
         self.is_opening = False
 
@@ -1514,7 +1514,7 @@ class ProperTree:
                 if self.start_window is None: self.start_window = window
         except Exception as e:
             self.tk.bell()
-            mb.showerror("Error in open_plist_from_app() function",repr(e))
+            mb.showerror("在 open_plist_from_app() 函数中发生错误",repr(e))
             self.lift_window()
         self.is_opening = False
 
@@ -1674,7 +1674,7 @@ class ProperTree:
             from_value = from_value.replace(" ","").replace("<","").replace(">","")
             if [x for x in from_value if x.lower() not in "0123456789abcdef"]:
                 self.tk.bell()
-                mb.showerror("Invalid Hex Data","Invalid character in passed hex data.") # ,parent=self.tk)
+                mb.showerror("无效的十六进制数据","传递的十六进制数据中包含无效字符。") # ,parent=self.tk)
                 self.lift_window()
                 return
         try:
@@ -1731,7 +1731,7 @@ class ProperTree:
             self.t_text.delete(0,tk.END)
             self.t_text.configure(state='readonly')
             self.tk.bell()
-            mb.showerror("Conversion Error",str(e)) # ,parent=self.tk)
+            mb.showerror("转换错误",str(e)) # ,parent=self.tk)
             self.lift_window()
 
     ###                       ###
@@ -1872,7 +1872,7 @@ class ProperTree:
     def open_plist(self, event=None):
         # Prompt the user to open a plist, attempt to load it, and if successful,
         # set its path as our current_plist value
-        path = fd.askopenfilename(title = "Select plist file") # ,parent=current_window) # Apparently parent here breaks on 10.15?
+        path = fd.askopenfilename(title = "选择 plist 文件") # ,parent=current_window) # Apparently parent here breaks on 10.15?
         if not len(path):
             # Lift the last window that was focused
             self.lift_window()
@@ -1908,7 +1908,7 @@ class ProperTree:
         except Exception as e:
             # Had an issue, throw up a display box
             self.tk.bell()
-            mb.showerror("An Error Occurred While Opening {}".format(os.path.basename(path)), str(e)) # ,parent=current_window)
+            mb.showerror("打开时出错 {}".format(os.path.basename(path)), str(e)) # ,parent=current_window)
             self.lift_window()
             return
         # Opened it correctly - let's load it, and set our values
@@ -1933,7 +1933,7 @@ class ProperTree:
         return current_window
 
     def stackorder(self, root = None, include_defaults = False):
-        """return a list of root and toplevel windows in stacking order (topmost is last)"""
+        """按堆叠顺序返回根窗口和顶层窗口的列表（最上层最后一个）"""
         root = root or self.tk
         check_types = (tk.Toplevel,tk.Tk) if include_defaults else plistwindow.PlistWindow
         c = root.children
@@ -1977,14 +1977,14 @@ class ProperTree:
         if self.is_quitting: return # Already quitting - don't try to do this twice at once
         self.is_quitting = True # Lock this to one quit attempt at a time
         if isinstance(event_or_signum,int) and frame is not None:
-            print("KeyboardInterrupt caught - cleaning up...")
+            print("捕获到键盘中断 - 正在清理...")
         # Get a list of all windows with unsaved changes
         unsaved = [x for x in self.stackorder(self.tk) if x.edited]
         ask_to_save = True
         if len(unsaved) > 1: # Ask for review
             answer = mb.askyesnocancel(
-                "Unsaved Changes",
-                "You have {:,} document{} with unsaved changes.\nWould you like to review?\n(If you don't review, all unsaved changes will be lost)".format(
+                "未保存的更改",
+                "您有 {:,} 个文档 {} 尚未保存更改。\n您想要查看吗?\n(如果您不查看,所有未保存的更改将会丢失)".format(
                     len(unsaved),
                     "" if len(unsaved)==1 else "s"
                 ))

@@ -294,7 +294,7 @@ class EntryPopup(EntryPlus):
         # Make sure we're Edited if the value is different
         if value != self.original_text and not self.master.edited:
             self.master.edited = True
-            self.master.title(self.master.title()+" - Edited")
+            self.master.title(self.master.title()+" - 编辑")
 
     def confirm(self, event=None, no_prompt = False):
         if not self.winfo_exists():
@@ -315,7 +315,7 @@ class EntryPopup(EntryPlus):
                 if text == self.parent.item(child, "text"):
                     # Have a match, beep and bail
                     if event: self.bell() # Only bell when we have a real event (i.e. return was pressed)
-                    if no_prompt or not mb.askyesno("Invalid Key Name","That key name already exists in that dict.\n\nWould you like to keep editing?",parent=self.parent):
+                    if no_prompt or not mb.askyesno("无效的密钥名称","该键名在该字典中已存在。\n\n您是否要继续编辑？",parent=self.parent):
                         return self.cancel(event)
                     # no_prompt is false and we wanted to continue editing - set focus again and return
                     return self.confirm_clear_and_focus()
@@ -345,7 +345,7 @@ class EntryPopup(EntryPlus):
             if output[0] == False:
                 # Didn't pass the test - show the error and prompt for edit continuing
                 if event: self.bell() # Only bell when we have a real event (i.e. return was pressed)
-                if no_prompt or not mb.askyesno(output[1],output[2]+"\n\nWould you like to keep editing?",parent=self.parent):
+                if no_prompt or not mb.askyesno(output[1],output[2]+"\n\n您要继续编辑吗?",parent=self.parent):
                     return self.cancel(event)
                 # no_prompt is false and we wanted to continue editing - set focus again and return
                 return self.confirm_clear_and_focus()
@@ -480,9 +480,9 @@ class PlistWindow(tk.Toplevel):
         self._tree_frame = tk.Frame(self)
         # self._tree = ttk.Treeview(self._tree_frame, columns=("Type","Value","Drag"), selectmode="browse", style=self.style_name)
         self._tree = ttk.Treeview(self._tree_frame, columns=("Type","Value"), selectmode="browse", style=self.style_name)
-        self._tree.heading("#0", text="Key")
-        self._tree.heading("#1", text="Type")
-        self._tree.heading("#2", text="Value")
+        self._tree.heading("#0", text="键值")
+        self._tree.heading("#1", text="类型")
+        self._tree.heading("#2", text="数值")
         self._tree.column("Type",width=int(self._tree.winfo_reqwidth()/4),stretch=False)
         # self._tree.column("Drag",minwidth=40,width=40,stretch=False,anchor="center")
 
@@ -557,28 +557,28 @@ class PlistWindow(tk.Toplevel):
             main_menu = tk.Menu(self)
             file_menu = tk.Menu(self, tearoff=0)
             self.recent_menu = tk.Menu(self, tearoff=0)
-            main_menu.add_cascade(label="File", menu=file_menu)
-            file_menu.add_command(label="New", command=self.controller.new_plist, accelerator="Ctrl+N")
-            file_menu.add_command(label="Open", command=self.controller.open_plist, accelerator="Ctrl+O")
-            file_menu.add_cascade(label="Open Recent", menu=self.recent_menu)
-            file_menu.add_command(label="Save", command=self.controller.save_plist, accelerator="Ctrl+S")
-            file_menu.add_command(label="Save As...", command=self.controller.save_plist_as, accelerator="Ctrl+Shift+S")
-            file_menu.add_command(label="Duplicate", command=self.controller.duplicate_plist, accelerator="Ctrl+D")
-            file_menu.add_command(label="Reload From Disk", command=self.reload_from_disk, accelerator="Ctrl+L")
+            main_menu.add_cascade(label="文件", menu=file_menu)
+            file_menu.add_command(label="新建", command=self.controller.new_plist, accelerator="Ctrl+N")
+            file_menu.add_command(label="打开", command=self.controller.open_plist, accelerator="Ctrl+O")
+            file_menu.add_cascade(label="最近打开", menu=self.recent_menu)
+            file_menu.add_command(label="保存", command=self.controller.save_plist, accelerator="Ctrl+S")
+            file_menu.add_command(label="另存为...", command=self.controller.save_plist_as, accelerator="Ctrl+Shift+S")
+            file_menu.add_command(label="复制", command=self.controller.duplicate_plist, accelerator="Ctrl+D")
+            file_menu.add_command(label="从磁盘重新加载", command=self.reload_from_disk, accelerator="Ctrl+L")
             file_menu.add_separator()
-            file_menu.add_command(label="OC Snapshot", command=self.oc_snapshot, accelerator="Ctrl+R")
-            file_menu.add_command(label="OC Clean Snapshot", command=self.oc_clean_snapshot, accelerator="Ctrl+Shift+R")
+            file_menu.add_command(label="OC 快照", command=self.oc_snapshot, accelerator="Ctrl+R")
+            file_menu.add_command(label="OC 清理快照", command=self.oc_clean_snapshot, accelerator="Ctrl+Shift+R")
             file_menu.add_separator()
-            file_menu.add_command(label="Convert Window", command=lambda:self.controller.show_window(self.controller.tk), accelerator="Ctrl+T")
-            file_menu.add_command(label="Strip Comments", command=self.strip_comments, accelerator="Ctrl+M")
-            file_menu.add_command(label="Strip Disabled Entries", command=self.strip_disabled, accelerator="Ctrl+E")
+            file_menu.add_command(label="转换窗口", command=lambda:self.controller.show_window(self.controller.tk), accelerator="Ctrl+T")
+            file_menu.add_command(label="移除注释", command=self.strip_comments, accelerator="Ctrl+M")
+            file_menu.add_command(label="移除禁用条目", command=self.strip_disabled, accelerator="Ctrl+E")
             file_menu.add_separator()
-            file_menu.add_command(label="Settings",command=lambda:self.controller.show_window(self.controller.settings_window), accelerator="Ctrl+,")
+            file_menu.add_command(label="设置",command=lambda:self.controller.show_window(self.controller.settings_window), accelerator="Ctrl+,")
             file_menu.add_separator()
-            file_menu.add_command(label="Toggle Find/Replace Pane",command=self.hide_show_find, accelerator="Ctrl+F")
-            file_menu.add_command(label="Toggle Plist/Data/Int/Bool Type Pane",command=self.hide_show_type, accelerator="Ctrl+P")
+            file_menu.add_command(label="切换查找/替换面板",command=self.hide_show_find, accelerator="Ctrl+F")
+            file_menu.add_command(label="切换 Plist/Data/Int 类型面板",command=self.hide_show_type, accelerator="Ctrl+P")
             file_menu.add_separator()
-            file_menu.add_command(label="Quit", command=self.controller.quit, accelerator="Ctrl+Q")
+            file_menu.add_command(label="退出", command=self.controller.quit, accelerator="Ctrl+Q")
             self.config(menu=main_menu)
 
         # Get the right click menu options
@@ -597,10 +597,10 @@ class PlistWindow(tk.Toplevel):
         self.display_frame = tk.Frame(self,height=20)
         for x in (2,4,6,8):
             self.display_frame.columnconfigure(x,weight=1)
-        pt_label = tk.Label(self.display_frame,text="Plist Type:")
-        dt_label = tk.Label(self.display_frame,text="Display Data as:")
-        in_label = tk.Label(self.display_frame,text="Display Ints as:")
-        bl_label = tk.Label(self.display_frame,text="Display Bools as:")
+        pt_label = tk.Label(self.display_frame,text="Plist 类型:")
+        dt_label = tk.Label(self.display_frame,text="将 Data 显示为:")
+        in_label = tk.Label(self.display_frame,text="将 Ints 显示为:")
+        bl_label = tk.Label(self.display_frame,text="将 Bools 显示为:")
         self.plist_type_string = tk.StringVar(self.display_frame)
         self.plist_type_menu = tk_or_ttk.OptionMenu(self.display_frame, self.plist_type_string, *self.controller.get_option_menu_list(self.controller.allowed_types), command=self.change_plist_type)
         self.plist_type_string.set(self.controller.allowed_types[0])
@@ -625,9 +625,9 @@ class PlistWindow(tk.Toplevel):
         # Create our find/replace view
         self.find_frame = tk.Frame(self,height=20)
         self.find_frame.columnconfigure(2,weight=1)
-        f_label = tk.Label(self.find_frame, text="Find:")
+        f_label = tk.Label(self.find_frame, text="找到:")
         f_label.grid(row=0,column=0,sticky="e")
-        r_label = tk.Label(self.find_frame, text="Replace:")
+        r_label = tk.Label(self.find_frame, text="替换:")
         r_label.grid(row=1,column=0,sticky="e")
         self.f_options = ["Key", "Boolean", "Data", "Date", "Number", "UID", "String"]
         self.find_type = self.f_options[0]
@@ -644,17 +644,17 @@ class PlistWindow(tk.Toplevel):
         f_option = tk_or_ttk.OptionMenu(self.find_frame, self.f_title, *self.controller.get_option_menu_list(self.f_options), command=self.change_find_type)
         f_option['menu'].insert_separator(1)
         f_option.grid(row=0,column=1)
-        self.fp_button = tk_or_ttk.Button(self.find_frame,text="< Prev",width=8,command=self.find_prev)
+        self.fp_button = tk_or_ttk.Button(self.find_frame,text="< 上一个",width=8,command=self.find_prev)
         self.fp_button.grid(row=0,column=3,sticky="e",padx=(10,0),pady=10)
-        self.fn_button = tk_or_ttk.Button(self.find_frame,text="Next >",width=8,command=self.find_next)
+        self.fn_button = tk_or_ttk.Button(self.find_frame,text="下一个 >",width=8,command=self.find_next)
         self.fn_button.grid(row=0,column=4,sticky="w",padx=(0,10),pady=10)
-        self.r_button = tk_or_ttk.Button(self.find_frame,text="Replace",command=self.replace)
+        self.r_button = tk_or_ttk.Button(self.find_frame,text="替换",command=self.replace)
         self.r_button.grid(row=1,column=3,columnspan=2,sticky="we",padx=10,pady=10)
         self.r_all_var = tk.IntVar()
-        self.r_all = tk_or_ttk.Checkbutton(self.find_frame,text="Replace All",variable=self.r_all_var)
+        self.r_all = tk_or_ttk.Checkbutton(self.find_frame,text="替换全部",variable=self.r_all_var)
         self.r_all.grid(row=1,column=5,sticky="w")
         self.f_case_var = tk.IntVar()
-        self.f_case = tk_or_ttk.Checkbutton(self.find_frame,text="Case-Sensitive",variable=self.f_case_var)
+        self.f_case = tk_or_ttk.Checkbutton(self.find_frame,text="区分大小写",variable=self.f_case_var)
         self.f_case.grid(row=0,column=5,sticky="w")
 
         # Set find_frame bindings - also bind to child widgets to ensure keybinds are captured
@@ -791,8 +791,8 @@ class PlistWindow(tk.Toplevel):
         if edited and not self.edited:
             # Make sure we show as edited
             self.edited = True
-            if not self.title().endswith(" - Edited"):
-                self.title(self.title()+" - Edited")
+            if not self.title().endswith(" - 编辑"):
+                self.title(self.title()+" - 编辑")
             if sys.platform == "darwin":
                 self.attributes("-modified",1)
         elif not edited and self.edited:
@@ -897,14 +897,14 @@ class PlistWindow(tk.Toplevel):
                 if value.lower().startswith("0x"):
                     value = value[2:]
                 if [x for x in value.lower() if x not in "0123456789abcdef"]:
-                    return (False,"Invalid Hex Data","Invalid character in passed hex data.")
+                    return (False,"无效的十六进制数据","传递的十六进制数据中包含无效字符。")
                 if len(value) % 2:
-                    return (False,"Invalid Hex Data","Hex data must contain an even number of chars.")
+                    return (False,"无效的十六进制数据","十六进制数据必须包含偶数个字符。")
                 value = "<{}>".format(" ".join((value[0+i:8+i] for i in range(0, len(value), 8))).upper())
             else:
                 value = value.rstrip("=")
                 if [x for x in value if x.lower() not in "0123456789abcdefghijklmnopqrstuvwxyz+/"]:
-                    return (False,"Invalid Base64 Data","Invalid base64 data passed.")
+                    return (False,"无效的 Base64 数据","传递的base64数据无效。")
                 if len(value) > 0 and len(value) % 4:
                     value += "=" * (4-len(value)%4)
                 try:
@@ -913,7 +913,7 @@ class PlistWindow(tk.Toplevel):
                         test = test.encode("utf-8")
                     base64.b64decode(test)
                 except Exception as e:
-                    return (False,"Invalid Base64 Data","Invalid base64 data passed.")
+                    return (False,"无效的 Base64 数据","传递的base64数据无效。")
         elif value_type == "date":
             try:
                 value = datetime.datetime.strptime(value,"%b %d, %Y %I:%M:%S %p").strftime("%b %d, %Y %I:%M:%S %p")
@@ -921,13 +921,13 @@ class PlistWindow(tk.Toplevel):
                 try:
                     value = datetime.datetime.strptime(value,"%Y-%m-%d %H:%M:%S %z").strftime("%b %d, %Y %I:%M:%S %p")
                 except:
-                    return (False,"Invalid Date","Couldn't convert the passed string to a date.\n\nValid formats include:\nMar 11, 2019 12:29:00 PM\nYYYY-MM-DD HH:MM:SS Z")
+                    return (False,"无效日期","无法将传递的字符串转换为日期。\n\n有效的格式包括：\n2019年3月11日 12:29:00 PM\nYYYY-MM-DD HH:MM:SS Z")
         elif value_type == "number":
             if value.lower().startswith("0x"):
                 try:
                     value = int(value,16)
                 except:
-                    return (False,"Invalid Hex Data","Couldn't convert the passed hex string to an integer.")
+                    return (False,"无效的十六进制数据","无法将传递的十六进制字符串转换为整数。")
             else:
                 value = value.replace(",","")
                 try:
@@ -936,7 +936,7 @@ class PlistWindow(tk.Toplevel):
                     try:
                         value = float(value)
                     except:
-                        return (False,"Invalid Number Data","Couldn't convert to an integer or float.")
+                        return (False,"无效的数字数据","无法转换为整数或浮点数。")
             # Check if we're saving an integer that's out of range
             if isinstance(value,(int,long)) and not (-1 << 63 <= value < 1 << 63):
                 # Convert it to a float which will force it into scientific notation
@@ -947,7 +947,7 @@ class PlistWindow(tk.Toplevel):
             value = str(value)
         elif value_type == "boolean":
             if not value.lower() in self.all_b(lower=True):
-                return (False,"Invalid Boolean Data","Booleans can only be {}.".format(", ".join(self.all_b())))
+                return (False,"无效的 Boolean 数据","Booleans 只能是 {}.".format(", ".join(self.all_b())))
             value = self.b_true() if value.lower() in self.all_b_true(lower=True) else self.b_false()
         elif value_type == "uid":
             # UIDs are not stored as hex, but we'll allow hex input
@@ -955,15 +955,15 @@ class PlistWindow(tk.Toplevel):
                 try:
                     value = int(value,16)
                 except:
-                    return (False,"Invalid Hex Data", "Couldn't convert the passed hex string to an integer.")
+                    return (False,"无效的十六进制数据", "无法将传递的十六进制字符串转换为整数。")
             else:
                 value = value.replace(",","")
                 try:
                     value = int(value)
                 except:
-                    return (False,"Invalid Integer Data","Couldn't convert the passed string to an integer.")
+                    return (False,"无效整数数据","无法将传递的字符串转换为整数。")
             if not 0 <= value < 1 << 32:
-                return (False,"Invalid Integer Value","UIDs cannot not be negative, and must be less than 2**32 (4294967296)")
+                return (False,"无效整数数据","用户标识符（UIDs）不能是负数，并且必须小于2的32次方（4294967296）")
             value = str(value)
         return (True,value)
 
@@ -1011,7 +1011,7 @@ class PlistWindow(tk.Toplevel):
         for i,x in enumerate(iterable):
             if x == item:
                 return i
-        raise ValueError("{} is not in iterable".format(item))
+        raise ValueError("{} 不在可迭代对象中".format(item))
 
     def do_replace(self, node, find, new_text):
         # We can assume that we have a legit match for whatever is passed
@@ -1069,7 +1069,7 @@ class PlistWindow(tk.Toplevel):
         find = self.f_text.get()
         if not len(find):
             self.bell()
-            mb.showerror("Nothing To Find", "The find textbox is empty, nothing to search for.",parent=self)
+            mb.showerror("没有要查找的内容", "查找文本框为空，没有要搜索的内容。",parent=self)
             return None
         repl = self.r_text.get()
         # Let's convert both values to the targets
@@ -1078,19 +1078,19 @@ class PlistWindow(tk.Toplevel):
         if find[0] == False:
             # Invalid find type
             self.bell()
-            mb.showerror("Invalid Find Value",find[2],parent=self)
+            mb.showerror("查找值无效",find[2],parent=self)
             return
         if repl[0] == False:
             # Invalid find type
             self.bell()
-            mb.showerror("Invalid Replace Value",repl[2],parent=self)
+            mb.showerror("替换值无效",repl[2],parent=self)
             return
         find = find[1]
         repl = repl[1]
         if find == repl:
             # Uh... they're the same - no need to replace bois
             self.bell()
-            mb.showerror("Find and Replace Are Identical", "The find and replace values are the same.  Nothing to do.",parent=self)
+            mb.showerror("查找和替换是相同的", "查找值和替换值是相同的。没什么可做的。",parent=self)
             return
         # Find out if we're replacing everything or not
         replace_all = self.r_all_var.get()
@@ -1101,7 +1101,7 @@ class PlistWindow(tk.Toplevel):
             if not len(matches):
                 # Nothing found - let's throw an error
                 self.bell()
-                mb.showerror("No Replaceable Matches Found", '"{}" did not match any {} fields in the current plist.'.format(find,self.find_type.lower()),parent=self)
+                mb.showerror("未找到可替换的匹配项", '“{}”未匹配当前属性列表（plist）中的任何{}字段。'.format(find,self.find_type.lower()),parent=self)
                 return
         elif not node == "" and not is_match == False:
             # Current is a match - let's add it
@@ -1112,7 +1112,7 @@ class PlistWindow(tk.Toplevel):
             if node is None:
                 # Nothing found - let's throw an error
                 self.bell()
-                mb.showerror("No Replaceable Matches Found", '"{}" did not match any {} fields in the current plist.'.format(find,self.find_type.lower()),parent=self)
+                mb.showerror("未找到可替换的匹配项", '“{}”未匹配当前属性列表（plist）中的任何{}字段。'.format(find,self.find_type.lower()),parent=self)
                 return
             return
         # At this point, we should have something to replace
@@ -1199,18 +1199,18 @@ class PlistWindow(tk.Toplevel):
         find  = self.f_text.get()
         if not len(find):
             self.bell()
-            mb.showerror("Nothing To Find", "The find textbox is empty, nothing to search for.",parent=self)
+            mb.showerror("没有要查找的内容", "查找文本框为空，没有要搜索的内容。",parent=self)
             return None
         type_check = self.qualify_value(find, self.find_type)
         if type_check[0] == False:
             self.bell()
-            mb.showerror("Invalid Find Value",type_check[2],parent=self)
+            mb.showerror("无效的查找值",type_check[2],parent=self)
             return None
         matches = self.find_all(type_check[1])
         if not len(matches):
             # Nothing found - let's throw an error
             self.bell()
-            mb.showerror("No Matches Found", '"{}" did not match any {} fields in the current plist.'.format(type_check[1],self.find_type.lower()),parent=self)
+            mb.showerror("未找到匹配项", '{} 未在当前属性列表(plist)中找到任何匹配的 {} 字段。'.format(type_check[1],self.find_type.lower()),parent=self)
             return None
         # Let's get the index of our selected item
         node  = "" if not len(self._tree.selection()) else self._tree.selection()[0]
@@ -1235,19 +1235,19 @@ class PlistWindow(tk.Toplevel):
         find  = self.f_text.get()
         if not len(find):
             self.bell()
-            mb.showerror("Nothing To Find", "The find textbox is empty, nothing to search for.",parent=self)
+            mb.showerror("没有要查找的内容", "查找文本框为空，没有可搜索的内容。",parent=self)
             return None
         type_check = self.qualify_value(find, self.find_type)
         if type_check[0] == False:
             self.bell()
-            mb.showerror("Invalid Find Value",type_check[2],parent=self)
+            mb.showerror("无效的查找值",type_check[2],parent=self)
             return None
         matches = self.find_all(type_check[1])
         if not len(matches):
             # Nothing found - let's throw an error
             if not replacing:
                 self.bell()
-                mb.showerror("No Matches Found", '"{}" did not match any {} fields in the current plist.'.format(type_check[1],self.find_type.lower()),parent=self)
+                mb.showerror("未找到匹配项", '{} 未在当前属性列表（plist）中找到任何匹配的 {} 字段。'.format(type_check[1],self.find_type.lower()),parent=self)
             return None
         # Let's get the index of our selected item
         node  = "" if not len(self._tree.selection()) else self._tree.selection()[0]
@@ -1319,7 +1319,7 @@ class PlistWindow(tk.Toplevel):
         # prompt the user
         if self.edited:
             self.bell()
-            if not mb.askyesno("Unsaved Changes","Any unsaved changes will be lost when reloading from disk. Continue?",parent=self):
+            if not mb.askyesno("未保存的更改","从磁盘重新加载时，未保存的更改将会丢失。是否继续？",parent=self):
                 return
         # If we got here - we're okay with dumping changes (if any)
         try:
@@ -1328,7 +1328,7 @@ class PlistWindow(tk.Toplevel):
         except Exception as e:
             # Had an issue, throw up a display box
             self.bell()
-            mb.showerror("An Error Occurred While Opening {}".format(os.path.basename(self.current_plist)), repr(e),parent=self)
+            mb.showerror("在打开 {} 时发生错误。".format(os.path.basename(self.current_plist)), repr(e),parent=self)
             return
         # We should have the plist data now
         self.open_plist(
@@ -1425,13 +1425,13 @@ class PlistWindow(tk.Toplevel):
         if not self.controller.snapshot_data:
             self.bell()
             mb.showerror(
-                "OC{} Snapshot Aborted".format(
+                "OC{} 快照中止".format(
                     " Clean" if clean else ""
                 ),
                 (
-                    "{} is missing or malformed.\n\n"
-                    "Please correct or replace the file.\n\n"
-                    "If running from a network drive or cloud backup, try running locally."
+                    "{} 缺失或格式错误。\n\n"
+                    "请更正或替换文件。\n\n"
+                    "如果从网络驱动器或云备份运行，请尝试在本地运行。"
                 ).format(
                     os.path.join(os.path.abspath(os.path.dirname(os.path.realpath(__file__))),"snapshot.plist")
                 ),
@@ -1446,7 +1446,7 @@ class PlistWindow(tk.Toplevel):
         if target_dir and not os.path.isdir(target_dir):
             target_dir = None # Reset to nothing
         # Prompt for the OC folder
-        oc_folder = fd.askdirectory(title="Select OC Folder:",initialdir=target_dir)
+        oc_folder = fd.askdirectory(title="选择OC文件夹：",initialdir=target_dir)
         self.controller.lift_window(self) # Lift the window to continue catching events
         if not len(oc_folder):
             return
@@ -1486,8 +1486,8 @@ class PlistWindow(tk.Toplevel):
                 # No dice - show the missing dialog box
                 self.bell()
                 mb.showerror(
-                    "Incorrect OC Folder Structure",
-                    "The following required folders do not exist:\n\n{}\n\nPlease make sure you're selecting a valid OC folder.".format(
+                    "不正确的OC文件夹结构",
+                    "以下必需的文件夹不存在：\n\n{}\n\n请确保您选择了一个有效的OC文件夹。".format(
                         ", ".join([os.path.basename(x) for x in oc_path_check["missing"]])
                     ),
                     parent=self
@@ -1536,7 +1536,7 @@ class PlistWindow(tk.Toplevel):
             sel_min,sel_max = select_snap.get("min_version","0.0.0"),select_snap.get("max_version","Current")
             found_ver  = tar_min if tar_min==tar_max else "{} -> {}".format(tar_min,tar_max)
             select_ver = sel_min if sel_min==sel_max else "{} -> {}".format(sel_min,sel_max)
-            if mb.askyesno("Snapshot Version Mismatch","Detected OpenCore.efi version: {}\n\nOC Snapshot target version: {}{}\n\nWould you like to snapshot for the detected OpenCore.efi version instead?".format(
+            if mb.askyesno("快照版本不匹配","检测到的 OpenCore.efi 版本为：{}\n\nOC 快照目标版本为：{}{}\n\n您是否希望为检测到的 OpenCore.efi 版本创建快照？".format(
                 found_ver,
                 select_ver,
                 " (Latest)" if user_snap.lower() == "latest" else ""
@@ -1603,25 +1603,25 @@ class PlistWindow(tk.Toplevel):
             verb = []
             title = []
             if missing_paths:
-                title.append("Incomplete")
-                verb.append("add missing paths")
+                title.append("不完整")
+                verb.append("添加缺失的路径")
                 error_list.extend(
-                    ["The following entries are missing:\n"] + missing_paths + [""]
+                    ["以下条目缺失:\n"] + missing_paths + [""]
                 )
             if incorrect_types:
-                title.append("Incorrect")
-                verb.append("fix incorrect types")
+                title.append("不正确的")
+                verb.append("修复不正确的类型")
                 error_list.extend(
-                    ["The following types are incorrect:\n"] + incorrect_types + [""]
+                    ["以下类型不正确:\n"] + incorrect_types + [""]
                 )
             # Flesh out the rest of the error - offering to correct the above
             error_list.extend([
-                "This may mean that your plist is incomplete, or you are performing an OC{} Snapshot on the wrong file.\n".format(
-                    " Clean" if clean else ""
+                "这可能意味着您的 plist 文件不完整，或者您正在对错误的文件执行 OC{} 快照。\n".format(
+                    " 清除" if clean else ""
                 ),
-                "Would you like to {} and continue?".format(", ".join(verb))
+                "您想要{}并继续吗？".format(", ".join(verb))
             ])
-            if not mb.askyesno("{} Plist Structure".format("/".join(title)),"\n".join(error_list),parent=self):
+            if not mb.askyesno("{} 属性列表(Plist)结构".format("/".join(title)),"\n".join(error_list),parent=self):
                 # User said "no", let's bail
                 return
 
@@ -1680,7 +1680,7 @@ class PlistWindow(tk.Toplevel):
                     acpi_enabled.append(a.get("Path",""))
                     acpi_duplicates_disabled.append(a)
         if len(acpi_duplicates):
-            if mb.askyesno("Duplicate ACPI Paths","Disable the following ACPI entries with duplicate Paths?\n\n{}".format("\n".join(acpi_duplicates)),parent=self):
+            if mb.askyesno("重复的 ACPI 路径","是否禁用具有重复路径的以下 ACPI 条目？\n\n{}".format("\n".join(acpi_duplicates)),parent=self):
                 new_add = acpi_duplicates_disabled
         # Save the results
         tree_dict["ACPI"]["Add"] = new_add
@@ -1806,10 +1806,10 @@ class PlistWindow(tk.Toplevel):
             rearranged.append(check2[out_of_place])
         # Verify if the load order changed - and prompt the user if need be
         if len(rearranged):
-            if not mb.askyesno("Incorrect Kext Load Order","Correct the following kext load inheritance issues?\n\n{}".format("\n".join(rearranged)),parent=self):
+            if not mb.askyesno("内核扩展(Kexts)加载顺序错误","是否纠正以下内核扩展(Kexts)加载继承问题？\n\n{}".format("\n".join(rearranged)),parent=self):
                 ordered_kexts = original_kexts # We didn't want to update it
         if len(disabled_parents):
-            if mb.askyesno("Disabled Parent Kexts","Enable the following disabled parent kexts?\n\n{}".format("\n".join([x[0].get("BundlePath","") for x in disabled_parents])),parent=self):
+            if mb.askyesno("已禁用的父级内核扩展(Kexts)","是否启用以下已禁用的父级内核扩展（kexts）？\n\n{}".format("\n".join([x[0].get("BundlePath","") for x in disabled_parents])),parent=self):
                 for p in disabled_parents: p[0]["Enabled"] = True
         # Finally - we walk the kexts and ensure that we're not loading the same CFBundleIdentifier more than once
         enabled_kexts = []
@@ -1859,7 +1859,7 @@ class PlistWindow(tk.Toplevel):
                 enabled_kexts.append((temp_kext,info))
         # Check if we have duplicates - and offer to disable them
         if len(duplicate_bundles):
-            if mb.askyesno("Duplicate CFBundleIdentifiers","Disable the following kexts with duplicate CFBundleIdentifiers?\n\n{}".format("\n".join(duplicate_bundles)),parent=self):
+            if mb.askyesno("重复的 CFBundleIdentifiers","是否禁用具有重复CFBundleIdentifier的内核扩展(kexts)?\n\n{}".format("\n".join(duplicate_bundles)),parent=self):
                 ordered_kexts = duplicates_disabled
         tree_dict["Kernel"]["Add"] = ordered_kexts
 
@@ -1925,7 +1925,7 @@ class PlistWindow(tk.Toplevel):
                         tools_enabled.append(t.get("Path",""))
                         tools_duplicates_disabled.append(t)
             if len(tools_duplicates):
-                if mb.askyesno("Duplicate Tools","Disable the following Tools with duplicate Paths?\n\n{}".format("\n".join(tools_duplicates)),parent=self):
+                if mb.askyesno("重复的工具","是否禁用具有重复路径的以下工具？\n\n{}".format("\n".join(tools_duplicates)),parent=self):
                     new_tools = tools_duplicates_disabled
             # Save the results
             tree_dict["Misc"]["Tools"] = new_tools
@@ -2007,7 +2007,7 @@ class PlistWindow(tk.Toplevel):
                     drivers_enabled.append(d)
                     drivers_duplicates_disabled.append(d)
         if len(drivers_duplicates):
-            if mb.askyesno("Duplicate Drivers","Disable the following Drivers with duplicate Paths?\n\n{}".format("\n".join(drivers_duplicates)),parent=self):
+            if mb.askyesno("重复的驱动程序","是否禁用具有重复路径的以下驱动程序？\n\n{}".format("\n".join(drivers_duplicates)),parent=self):
                 new_drivers = drivers_duplicates_disabled
         # Save the results
         tree_dict["UEFI"]["Drivers"] = new_drivers
@@ -2349,8 +2349,8 @@ class PlistWindow(tk.Toplevel):
                     self.last_hash = modified_hash
                     self.bell()
                     if mb.askyesno(
-                        "File Was Modified",
-                        "{} was modified by another application, do you want to reload it from disk?".format(
+                        "文件已被修改",
+                        "{} 被另一个应用程序修改，您要从磁盘重新加载它吗？".format(
                             os.path.basename(self.current_plist)
                         ),
                         parent=self):
@@ -2561,7 +2561,7 @@ class PlistWindow(tk.Toplevel):
     ###                       ###
 
     def get_title(self):
-        name = self.title()[0:-len(" - Edited")] if self.edited else self.title()
+        name = self.title()[0:-len(" - 编辑")] if self.edited else self.title()
         return os.path.basename(name)
 
     def get_dir(self):
@@ -2572,7 +2572,7 @@ class PlistWindow(tk.Toplevel):
             return True # No changes, all good
         self.saving = True # Lock saving status
         # Post a dialog asking if we want to save the current plist
-        answer = mb.askyesnocancel("Unsaved Changes", "Save changes to {}?".format(self.get_title()))
+        answer = mb.askyesnocancel("未保存的更改", "将更改保存到{}吗？".format(self.get_title()))
         self.saving = False # Reset saving status
         if answer == True:
             return self.save_plist()
@@ -2619,7 +2619,7 @@ class PlistWindow(tk.Toplevel):
         if path is None:
             # Get the file dialog
             path = fd.asksaveasfilename(
-                title="Please select a file name for saving:",
+                title="请选择保存的文件名：",
                 defaultextension=".plist",
                 initialfile=self.get_title(),
                 initialdir=self.get_dir()
@@ -2680,7 +2680,7 @@ class PlistWindow(tk.Toplevel):
         except Exception as e:
             # Had an issue, throw up a display box
             self.bell()
-            mb.showerror("An Error Occurred While Saving", str(e), parent=self)
+            mb.showerror("保存时发生错误", str(e), parent=self)
             self.controller.lift_window(self)
             return None
         finally:
@@ -2815,14 +2815,14 @@ class PlistWindow(tk.Toplevel):
             except Exception as e:
                 # Let's throw an error
                 self.bell()
-                mb.showerror("An Error Occurred While Pasting", repr(e),parent=self)
+                mb.showerror("粘贴时发生错误", repr(e),parent=self)
                 self.pasting_nodes = False
                 return 'break'
         if plist_data is None:
             if len(clip):
                 # Check if we actually pasted something
                 self.bell()
-                mb.showerror("An Error Occurred While Pasting", "The pasted value is not a valid plist string.",parent=self)
+                mb.showerror("粘贴时发生错误", "粘贴的值不是有效的属性列表(plist)字符串。",parent=self)
             # Nothing to paste
             self.pasting_nodes = False
             return 'break'
@@ -3383,12 +3383,12 @@ class PlistWindow(tk.Toplevel):
         types = itypes.split("/")
         if not len(paths) == len(types):
             self.bell()
-            mb.showerror("Incorrect Patch Format", "Patch is incomplete.", parent=self)
+            mb.showerror("补丁格式错误", "补丁不完整。", parent=self)
             return
         if not len(paths) or paths[0] == "*":
             # No path, or it's an array
             self.bell()
-            mb.showerror("Incorrect Patch Format", "Patch starts with an array - must be a dictionary.", parent=self)
+            mb.showerror("补丁格式错误", "补丁以数组开头 - 必须为字典。", parent=self)
             return
         # Iterate both the paths and types lists - checking for each value,
         # and ensuring the type
@@ -3405,7 +3405,7 @@ class PlistWindow(tk.Toplevel):
                     if not current_type.lower() == needed_type.lower():
                         # Raise an error - type mismatch
                         self.bell()
-                        if mb.askyesno("Incorrect Type","{} is {}, should be {}.\n\nWould you like to replace it?".format(cell_name,current_type,needed_type),parent=self):
+                        if mb.askyesno("类型不正确","{} 是 {},应该是 {}.\n\n您想要替换它吗?".format(cell_name,current_type,needed_type),parent=self):
                             # We need to remove any children, and change the type
                             for y in self._tree.get_children(x):
                                 undo_list.append({
@@ -3457,7 +3457,7 @@ class PlistWindow(tk.Toplevel):
                     if not replace_asked:
                         # Ask first
                         self.bell()
-                        if mb.askyesno("Key(s) Already Exist","One or more keys already exist at the destination.\n\nWould you like to replace them?",parent=self):
+                        if mb.askyesno("键值已存在","在目标位置已存在一个或多个键值。\n\n您想要替换它们吗？",parent=self):
                             replace_asked = True
                         else:
                             # User said no, let's undo
@@ -3546,29 +3546,29 @@ class PlistWindow(tk.Toplevel):
         # Build right click menu
         popup_menu = tk.Menu(self, tearoff=0)
         if self.get_check_type(cell).lower() in ("array","dictionary"):
-            popup_menu.add_command(label="Expand Node", command=self.expand_node)
-            popup_menu.add_command(label="Collapse Node", command=self.collapse_node)
+            popup_menu.add_command(label="展开节点", command=self.expand_node)
+            popup_menu.add_command(label="折叠节点", command=self.collapse_node)
             popup_menu.add_separator()
-            popup_menu.add_command(label="Expand Children", command=self.expand_children)
-            popup_menu.add_command(label="Collapse Children", command=self.collapse_children)
+            popup_menu.add_command(label="展开子项", command=self.expand_children)
+            popup_menu.add_command(label="折叠子项", command=self.collapse_children)
             popup_menu.add_separator()
-        popup_menu.add_command(label="Expand All", command=self.expand_all)
-        popup_menu.add_command(label="Collapse All", command=self.collapse_all)
+        popup_menu.add_command(label="展开全部", command=self.expand_all)
+        popup_menu.add_command(label="折叠全部", command=self.collapse_all)
         popup_menu.add_separator()
         is_mac = sys.platform == "darwin"
         # Determine if we are adding a child or a sibling
         if cell in ("",self.get_root_node()):
             # Top level - get the Root
             if self.get_check_type(self.get_root_node()).lower() in ("array","dictionary"):
-                popup_menu.add_command(label="New top level entry{}".format(" (Cmd +)" if is_mac else ""), command=lambda:self.new_row(self.get_root_node()),accelerator=None if is_mac else "(Ctrl +)")
+                popup_menu.add_command(label="新建的顶层条目{}".format(" (Cmd +)" if is_mac else ""), command=lambda:self.new_row(self.get_root_node()),accelerator=None if is_mac else "(Ctrl +)")
         else:
             if self.get_check_type(cell).lower() in ("dictionary","array") and (self._tree.item(cell,"open") or not len(self._tree.get_children(cell))):
-                popup_menu.add_command(label="New child under '{}'{}".format(self._tree.item(cell,"text")," (Cmd +)" if is_mac else ""), command=lambda:self.new_row(cell),accelerator=None if is_mac else "(Ctrl +)")
-                popup_menu.add_command(label="New sibling of '{}'".format(self._tree.item(cell,"text")), command=lambda:self.new_row(cell,True))
-                popup_menu.add_command(label="Remove '{}' and any children{}".format(self._tree.item(cell,"text")," (Cmd -)" if is_mac else ""), command=lambda:self.remove_row(cell),accelerator=None if is_mac else "(Ctrl -)")
+                popup_menu.add_command(label="新建子项‘{}’{}".format(self._tree.item(cell,"text")," (Cmd +)" if is_mac else ""), command=lambda:self.new_row(cell),accelerator=None if is_mac else "(Ctrl +)")
+                popup_menu.add_command(label="新建'{}'的同级项".format(self._tree.item(cell,"text")), command=lambda:self.new_row(cell,True))
+                popup_menu.add_command(label="删除‘{}’及其所有子项{}".format(self._tree.item(cell,"text")," (Cmd -)" if is_mac else ""), command=lambda:self.remove_row(cell),accelerator=None if is_mac else "(Ctrl -)")
             else:
-                popup_menu.add_command(label="New sibling of '{}'{}".format(self._tree.item(cell,"text")," (Cmd +)" if is_mac else ""), command=lambda:self.new_row(cell),accelerator=None if is_mac else "(Ctrl +)")
-                popup_menu.add_command(label="Remove '{}'{}".format(self._tree.item(cell,"text")," (Cmd -)" if is_mac else ""), command=lambda:self.remove_row(cell),accelerator=None if is_mac else "(Ctrl -)")
+                popup_menu.add_command(label="新建‘{}’的同级项{}".format(self._tree.item(cell,"text")," (Cmd +)" if is_mac else ""), command=lambda:self.new_row(cell),accelerator=None if is_mac else "(Ctrl +)")
+                popup_menu.add_command(label="去除'{}'{}".format(self._tree.item(cell,"text")," (Cmd -)" if is_mac else ""), command=lambda:self.remove_row(cell),accelerator=None if is_mac else "(Ctrl -)")
         # Let's get our sorting menus
         parent = cell if cell in ("",self.get_root_node()) else self._tree.parent(cell)
         if self.get_check_type(parent).lower() in ("dictionary","array"):
@@ -3576,29 +3576,29 @@ class PlistWindow(tk.Toplevel):
             popup_menu.add_separator()
             # Find out if we can recursively start with the cell, or if we need to start with the parent
             recurs_target = cell if self.get_check_type(cell).lower() in ("dictionary","array") and len(self._tree.get_children(cell)) else parent
-            popup_menu.add_command(label="Recursively sort keys starting at '{}'".format(self._tree.item(recurs_target,"text")), command=lambda:self.sort_keys(recurs_target,recursive=True))
-            popup_menu.add_command(label="Recursively reverse sort keys starting at '{}'".format(self._tree.item(recurs_target,"text")), command=lambda:self.sort_keys(recurs_target,recursive=True,reverse=True))
+            popup_menu.add_command(label="从‘{}’开始递归地对键进行排序".format(self._tree.item(recurs_target,"text")), command=lambda:self.sort_keys(recurs_target,recursive=True))
+            popup_menu.add_command(label="从‘{}’开始递归地对键进行逆向排序".format(self._tree.item(recurs_target,"text")), command=lambda:self.sort_keys(recurs_target,recursive=True,reverse=True))
             # Check the actual cell
             sort_target = cell if cell in ("",self.get_root_node()) or (self.get_check_type(cell).lower() == "dictionary" and len(self._tree.get_children(cell))>1) else self._tree.parent(cell)
-            popup_menu.add_command(label="Sort keys in '{}'".format(self._tree.item(sort_target,"text")), command=lambda:self.sort_keys(sort_target))
-            popup_menu.add_command(label="Reverse sort keys in '{}'".format(self._tree.item(sort_target,"text")), command=lambda:self.sort_keys(sort_target,reverse=True))
+            popup_menu.add_command(label="对‘{}’中的键进行排序".format(self._tree.item(sort_target,"text")), command=lambda:self.sort_keys(sort_target))
+            popup_menu.add_command(label="对‘{}’中的键进行逆向排序".format(self._tree.item(sort_target,"text")), command=lambda:self.sort_keys(sort_target,reverse=True))
             
         # Add the copy and paste options
         popup_menu.add_separator()
         c_state = "normal" if len(self._tree.selection()) else "disabled"
         try: p_state = "normal" if len(self.root.clipboard_get()) else "disabled"
         except: p_state = "disabled" # Invalid clipboard content
-        popup_menu.add_command(label="Copy{}".format(" (Cmd+C)" if is_mac else ""),command=self.copy_selection,state=c_state,accelerator=None if is_mac else "(Ctrl+C)")
+        popup_menu.add_command(label="复制{}".format(" (Cmd+C)" if is_mac else ""),command=self.copy_selection,state=c_state,accelerator=None if is_mac else "(Ctrl+C)")
         if not cell in ("",self.get_root_node()) and self.get_check_type(cell).lower() in ("array","dictionary"):
-            popup_menu.add_command(label="Copy Children", command=self.copy_children,state=c_state)
-        popup_menu.add_command(label="Paste{}".format(" (Cmd+V)" if is_mac else ""),command=self.paste_selection,state=p_state,accelerator=None if is_mac else "(Ctrl+V)")
+            popup_menu.add_command(label="复制子项", command=self.copy_children,state=c_state)
+        popup_menu.add_command(label="粘贴{}".format(" (Cmd+V)" if is_mac else ""),command=self.paste_selection,state=p_state,accelerator=None if is_mac else "(Ctrl+V)")
         cell_path = self.get_cell_path(cell)
         # Add rbits option
         cell_search = [x for x in self.split(cell_path) if x and x!="*"]
         if cell_search and cell_search[0] == "Root": cell_search = cell_search[1:]
         if cell_search and os.path.isfile(self.controller.get_best_tex_path()):
             popup_menu.add_separator()
-            popup_menu.add_command(label="Show info for \"{}\"{}".format(
+            popup_menu.add_command(label="显示\"{}\"的信息 {}".format(
                 " -> ".join(cell_search), " (Cmd+I)" if is_mac else ""), command=self.show_config_info, accelerator=None if is_mac else "(Ctrl+I)")
         
         # Walk through the menu data if it exists

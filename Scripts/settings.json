@@ -1,0 +1,21 @@
+{
+    "opacity": 100.0,
+    "drag_dead_zone": 20.0,
+    "enable_drag_and_drop": true,
+    "use_custom_font_size": false,
+    "use_custom_font": false,
+    "last_window_width": 934,
+    "last_window_height": 480,
+    "comment_strip_prefix": "#",
+    "max_undo": 200,
+    "alternating_color_1": "#F0F1F1",
+    "alternating_color_2": "#FEFEFE",
+    "background_color": "#FEFEFE",
+    "invert_background_text_color": false,
+    "invert_row1_text_color": false,
+    "invert_row2_text_color": false,
+    "convert_to_type": "Binary",
+    "convert_from_type": "Base64",
+    "font_size": 9,
+    "open_recent": []
+}

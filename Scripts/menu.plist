@@ -8,7 +8,7 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>New Blank Entry</string>
+				<string>新建空白条目</string>
 				<key>types</key>
 				<string>d/d/d/a</string>
 				<key>value</key>
@@ -31,7 +31,7 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>New Blank Entry</string>
+				<string>新建空白条目</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -49,7 +49,7 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>New Blank Entry</string>
+				<string>新建空白条目</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -98,7 +98,7 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>New Blank Entry</string>
+				<string>新建空白条目</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -138,7 +138,7 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>New Blank Entry</string>
+				<string>新建空白条目</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -167,7 +167,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add Lilu kext</string>
+				<string>添加 Lilu kext</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -192,7 +192,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add VirtualSmc kext</string>
+				<string>添加 VirtualSmc kext</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -217,7 +217,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add WhateverGreen kext</string>
+				<string>添加 WhateverGreen kext</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -242,7 +242,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add AppleALC kext</string>
+				<string>添加 AppleALC kext</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -267,7 +267,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add USBInjectAll kext</string>
+				<string>添加 USBInjectAll kext</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -292,7 +292,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add VoodooPS2Controller [first to load]</string>
+				<string>添加 VoodooPS2Controller [first to load]</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -317,7 +317,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add VoodooPS2Keyboard [Load after VPS2C]</string>
+				<string>添加 VoodooPS2Keyboard [Load after VPS2C]</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -342,7 +342,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add VoodooPS2Trackpad [Load after VPS2C]</string>
+				<string>添加 VoodooPS2Trackpad [Load after VPS2C]</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -367,7 +367,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add AirportBrcmFixup kext</string>
+				<string>添加 AirportBrcmFixup kext</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -392,7 +392,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add CPUFriend kext</string>
+				<string>添加 CPUFriend kext</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -417,7 +417,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add CPUFriend DataProvider [load after CPUFriend]</string>
+				<string>添加 CPUFriend DataProvider [load after CPUFriend]</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -542,7 +542,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add NoTouchID kext</string>
+				<string>添加 NoTouchID kext</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -567,7 +567,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add BrcmFirmwareData kext</string>
+				<string>添加 BrcmFirmwareData kext</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -592,7 +592,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add BrcmPatchRAM2 kext (10.11.x-10.14.x)</string>
+				<string>添加 BrcmPatchRAM2 kext (10.11.x-10.14.x)</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -617,7 +617,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add BrcmPatchRAM3 kext (10.15+)</string>
+				<string>添加 BrcmPatchRAM3 kext (10.15+)</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -642,7 +642,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add SMCBatteryManager kext [Load after VSMC]</string>
+				<string>添加 SMCBatteryManager kext [Load after VSMC]</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -667,7 +667,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Add SMCProcessor kext [load after VSMC]</string>
+				<string>添加 SMCProcessor kext [load after VSMC]</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -695,7 +695,7 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>New Blank Entry (Disable)</string>
+				<string>新建空白条目（禁用）</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -718,7 +718,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>New Blank Entry (Exclude)</string>
+				<string>新建空白条目（排除）</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -767,7 +767,7 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>New Blank Entry</string>
+				<string>新建空白条目</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
@@ -797,7 +797,7 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>New Blank Entry</string>
+				<string>新建空白条目</string>
 				<key>types</key>
 				<string>d/d/a</string>
 				<key>value</key>
